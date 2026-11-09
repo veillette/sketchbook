@@ -27,6 +27,13 @@ function remember(lesson, step, completed = progress[lesson.id]?.completed === t
   saveProgress(progress);
 }
 function focusMain() { main.focus({ preventScroll: true }); }
+// The lesson view is rebuilt on every step, so a live region inside it would be
+// replaced along with its text and rarely announced. This one lives outside <main>.
+const announcer = document.getElementById("announcer");
+function announce(text) {
+  announcer.textContent = "";
+  requestAnimationFrame(() => { announcer.textContent = text; });
+}
 function card(lesson, index) {
   const saved = progress[lesson.id];
   return h("a", { class: `lesson-card ${lesson.color}`, href: `#/${lesson.id}` },
@@ -59,7 +66,7 @@ function gallery() {
         h("p", { class: "hero-description" }, "A cat starts with an ear. A flower starts with a circle. Learn to draw friendly little cartoons, one simple line at a time."),
         h("a", { class: "button primary", href: "#drawings" }, "Find your first drawing", arrow()),
         h("p", { class: "hero-footnote" }, "Chalk, pencil, or your favorite crayon. Just bring yourself.")),
-      h("a", { class: "hero-board", href: "#/cat", "aria-label": `Try ${featured.name}, a ${featured.steps.length}-step drawing lesson` },
+      h("a", { class: "hero-board", href: `#/${featured.id}`, "aria-label": `Try ${featured.name}, a ${featured.steps.length}-step drawing lesson` },
         h("span", { class: "board-tape", "aria-hidden": "true" }),
         h("div", { class: "board-topline" }, h("span", {}, "TODAY’S LITTLE CREATION"), h("span", { "aria-hidden": "true" }, "✧")),
         drawing(featured, { finished: true }),
@@ -77,6 +84,7 @@ function gallery() {
 
 function renderLesson(lesson, restoreFocus = false) {
   const focused = document.activeElement?.id;
+  const hadFocus = main.contains(document.activeElement) && document.activeElement !== main;
   const step = progress[lesson.id]?.step ?? 0;
   const current = lesson.steps[step];
   const isLast = step === lesson.steps.length - 1;
@@ -86,6 +94,7 @@ function renderLesson(lesson, restoreFocus = false) {
     celebrate = false;
     remember(lesson, next);
     renderLesson(lesson, true);
+    announce(`Step ${next + 1} of ${lesson.steps.length}. ${lesson.steps[next].instruction}`);
   }
   function next() {
     if (showFinished) return;
@@ -99,7 +108,7 @@ function renderLesson(lesson, restoreFocus = false) {
   const board = h("div", { class: `lesson-board ${theme === "paper" ? "paper-board" : ""}`, "aria-label": "Drawing reference" },
     h("div", { class: "lesson-board-top" }, h("span", {}, showFinished || celebrate ? "THE WHOLE LITTLE PICTURE" : `LINE ${String(step + 1).padStart(2, "0")} / ${lesson.steps.length}`), h("span", { "aria-hidden": "true" }, "✧")),
     drawing(lesson, { step, finished: showFinished || celebrate }),
-    h("p", { class: "board-caption" }, showFinished || celebrate ? "Your lines. Your little character." : "Add the golden line. Swipe ← for next, → for previous."));
+    h("p", { class: "board-caption" }, showFinished || celebrate ? "Your lines. Your little character." : ["Add the golden line.", h("span", { class: "swipe-hint" }, " Swipe left for the next line, right to go back.")]));
   setupSwipe(board, (direction) => {
     if (showFinished || celebrate) return;
     const nextStep = moveStep(lesson, step, direction);
@@ -112,7 +121,7 @@ function renderLesson(lesson, restoreFocus = false) {
       h("div", { class: "finish-actions" }, h("button", { class: "button primary", type: "button", onclick: () => setStep(0) }, "Draw it again", h("span", { "aria-hidden": "true" }, "↺")), h("a", { class: "button secondary", href: "#drawings" }, "Pick another drawing", arrow())))
     : h("section", { class: "instruction", "aria-labelledby": "instruction-title" },
       h("div", { class: "instruction-topline" }, h("p", { class: "eyebrow" }, showFinished ? "A peek at the finish" : `Step ${step + 1} of ${lesson.steps.length}`), h("span", { class: "step-badge", "aria-hidden": "true" }, showFinished ? "✧" : String(step + 1).padStart(2, "0"))),
-      h("div", { class: "instruction-copy", "aria-live": "polite", "aria-atomic": "true" }, h("h2", { id: "instruction-title" }, showFinished ? "Here’s where we’re headed." : current.instruction), h("p", {}, showFinished ? "Take a look at the finished character. When you’re ready, return to your current step." : current.tip)),
+      h("div", { class: "instruction-copy" }, h("h2", { id: "instruction-title" }, showFinished ? "Here’s where we’re headed." : current.instruction), h("p", {}, showFinished ? "Take a look at the finished character. When you’re ready, return to your current step." : current.tip)),
       h("div", { class: "take-time" }, h("span", { "aria-hidden": "true" }, "〰"), "No rush. Make this line, then come back for the next."),
       h("div", { class: "lesson-controls" },
         h("button", { id: "step-prev", class: "button secondary", type: "button", disabled: step === 0 || showFinished, onclick: () => setStep(moveStep(lesson, step, -1)) }, h("span", { "aria-hidden": "true" }, "←"), "Previous"),
@@ -130,13 +139,17 @@ function renderLesson(lesson, restoreFocus = false) {
           h("div", { class: "reference-tools" },
             h("div", { class: "board-modes", role: "group", "aria-label": "Reference background" },
               [ ["chalk", "Chalkboard"], ["paper", "Paper"] ].map(([value, label]) => h("button", { type: "button", id: `mode-${value}`, "aria-pressed": String(theme === value), onclick: () => { theme = value; saveTheme(theme); renderLesson(lesson, true); } }, label))),
-            h("button", { type: "button", id: "show-finished", class: "text-button", "aria-pressed": String(showFinished), disabled: celebrate, onclick: () => { showFinished = !showFinished; renderLesson(lesson, true); } }, showFinished ? "← Back to my step" : "Peek at finished drawing"))),
+            h("button", { type: "button", id: "show-finished", class: "text-button", "aria-pressed": String(showFinished), disabled: celebrate, onclick: () => { showFinished = !showFinished; renderLesson(lesson, true); announce(showFinished ? "Showing the finished drawing." : `Back to step ${step + 1} of ${lesson.steps.length}. ${current.instruction}`); } }, showFinished ? "← Back to my step" : "Peek at finished drawing"))),
         instruction),
       h("div", { class: "lesson-bottom" }, h("p", {}, "Draw on your chalkboard or paper. The screen is just your guide."),
-        h("button", { type: "button", class: "text-button", onclick: () => setStep(0) }, "↺ Start over"))));
-  if (restoreFocus && focused) {
-    const target = document.getElementById(focused);
+        h("button", { type: "button", id: "start-over", class: "text-button", onclick: () => setStep(0) }, "↺ Start over"))));
+  // Re-rendering replaces every control, so put focus back where it was. If that
+  // control is now disabled (Previous on step 1) or gone, fall back to Next.
+  if (restoreFocus && hadFocus) {
+    const target = focused && document.getElementById(focused);
+    const fallback = document.getElementById("step-next");
     if (target && !target.disabled) target.focus({ preventScroll: true });
+    else if (fallback && !fallback.disabled) fallback.focus({ preventScroll: true });
   }
 }
 function route() {

@@ -10,3 +10,5 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Large phone targets; desktop retains the side-by-side reference and instructions. */
 @media(max-width:720px){.lesson-board{touch-action:pan-y pinch-zoom}.reference-tools .text-button{min-height:44px}.step-range input{height:44px}.board-caption{line-height:1.7}}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.swipe-hint{display:none}@media(hover:none) and (pointer:coarse){.swipe-hint{display:inline}}

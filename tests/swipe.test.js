@@ -16,3 +16,14 @@ test('gesture cancellation and scrolling do not advance; swipe fires once',()=>{
  assert.deepEqual(moves,[]);
  start();end();end();assert.deepEqual(moves,[1]);
 });
+test('small jitter at the start of a swipe does not cancel it',()=>{
+ const handlers={};const moves=[];
+ setupSwipe({addEventListener:(name,fn)=>handlers[name]=fn},n=>moves.push(n));
+ const touch=(x,y=0)=>({clientX:x,clientY:y,identifier:1});
+ handlers.touchstart({touches:[touch(100)],target:{closest:()=>null}});
+ handlers.touchmove({touches:[touch(99,3)]}); // mostly vertical, but inside the dead zone
+ handlers.touchmove({touches:[touch(70,6)]}); // clearly horizontal: axis locks
+ handlers.touchmove({touches:[touch(40,40)]}); // later drift no longer cancels mid-swipe
+ handlers.touchend({touches:[],changedTouches:[touch(30,10)]});
+ assert.deepEqual(moves,[1]);
+});

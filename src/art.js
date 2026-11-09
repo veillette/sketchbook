@@ -1,7 +1,9 @@
 const NS = "http://www.w3.org/2000/svg";
+// Visible drawing area [x, y, width, height]. Lesson strokes must stay inside it.
+export const VIEW_BOX = [30, 35, 260, 255];
 export function drawing(lesson, { step = lesson.steps.length - 1, finished = false, thumbnail = false } = {}) {
   const svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("viewBox", "30 35 260 255");
+  svg.setAttribute("viewBox", VIEW_BOX.join(" "));
   svg.setAttribute("class", `drawing${thumbnail ? " thumbnail" : ""}`);
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", `${lesson.name}${thumbnail || finished ? ", finished drawing" : `, step ${step + 1} of ${lesson.steps.length}`}`);

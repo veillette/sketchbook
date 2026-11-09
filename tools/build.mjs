@@ -1,6 +1,12 @@
+// Usage: node tools/build.mjs [output-dir]   (default: dist/)
 import { cp, mkdir, rm, access, readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+
+// Absolute URLs in src/index.html (canonical, og:url, og:image) use this base.
+const DEFAULT_BASE = "https://veillette.github.io/sketchbook/";
 const source = new URL("../src/", import.meta.url);
-const output = new URL("../dist/", import.meta.url);
+const output = process.argv[2] ? pathToFileURL(resolve(process.argv[2]) + "/") : new URL("../dist/", import.meta.url);
 await access(new URL("index.html", source));
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -13,9 +19,8 @@ if (process.env.SITE_URL) {
   url.hash = "";
   if (!url.pathname.endsWith("/")) url.pathname += "/";
   const index = new URL("index.html", output);
-  const html = (await readFile(index, "utf8"))
-    .replace(/(<link rel="canonical" href=")[^"]*(">)/, (_, before, after) => before + url.href + after)
-    .replace(/(<meta property="og:url" content=")[^"]*(">)/, (_, before, after) => before + url.href + after);
-  await writeFile(index, html);
+  const html = await readFile(index, "utf8");
+  if (!html.includes(DEFAULT_BASE)) throw new Error(`index.html no longer contains ${DEFAULT_BASE}`);
+  await writeFile(index, html.replaceAll(DEFAULT_BASE, url.href));
 }
-console.log("Built static site in dist/");
+console.log(`Built static site in ${decodeURIComponent(output.pathname)}`);
