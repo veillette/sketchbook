@@ -1,3 +1,4 @@
+import { setupSwipe } from "./swipe.js";
 import { lessons } from "./lessons.js";
 import { drawing } from "./art.js";
 import { loadProgress, saveProgress, lessonFromHash, moveStep } from "./state.js";
@@ -98,7 +99,12 @@ function renderLesson(lesson, restoreFocus = false) {
   const board = h("div", { class: `lesson-board ${theme === "paper" ? "paper-board" : ""}`, "aria-label": "Drawing reference" },
     h("div", { class: "lesson-board-top" }, h("span", {}, showFinished || celebrate ? "THE WHOLE LITTLE PICTURE" : `LINE ${String(step + 1).padStart(2, "0")} / ${lesson.steps.length}`), h("span", { "aria-hidden": "true" }, "✧")),
     drawing(lesson, { step, finished: showFinished || celebrate }),
-    h("p", { class: "board-caption" }, showFinished || celebrate ? "Your lines. Your little character." : "The golden line is the one to add."));
+    h("p", { class: "board-caption" }, showFinished || celebrate ? "Your lines. Your little character." : "Add the golden line. Swipe ← for next, → for previous."));
+  setupSwipe(board, (direction) => {
+    if (showFinished || celebrate) return;
+    const nextStep = moveStep(lesson, step, direction);
+    if (nextStep !== step) setStep(nextStep);
+  });
   const instruction = celebrate
     ? h("section", { class: "instruction done-instruction", "aria-labelledby": "finished-title" }, h("span", { class: "done-star", "aria-hidden": "true" }, "✳"),
       h("p", { class: "eyebrow" }, "Look what you made"), h("h2", { id: "finished-title", tabindex: "-1" }, `You drew a ${lesson.noun}!`),
