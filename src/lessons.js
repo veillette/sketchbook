@@ -2,7 +2,8 @@
 // Artwork is original and intentionally simple enough to copy by hand.
 const line = (instruction, path, tip) => ({ instruction, path, tip });
 const oval = (x, y, rx, ry) => `M ${x-rx} ${y} a ${rx} ${ry} 0 1 0 ${rx*2} 0 a ${rx} ${ry} 0 1 0 ${-rx*2} 0`;
-export const lessons = [
+import { extraLessons } from "./more-lessons.js";
+const originalLessons = [
   {
     id: "cat", name: "Curious cat", noun: "cat", category: "Animals", color: "peach", intro: "A pair of pointy ears, a little smile, and a very curious tail.",
     steps: [
@@ -105,4 +106,5 @@ export const lessons = [
     ],
   },
 ];
+export const lessons = [...originalLessons, ...extraLessons];
 export const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]));

@@ -31,7 +31,7 @@ function card(lesson, index) {
   const saved = progress[lesson.id];
   return h("a", { class: `lesson-card ${lesson.color}`, href: `#/${lesson.id}` },
     h("div", { class: "card-art" },
-      h("span", { class: "card-number", "aria-hidden": "true" }, `0${index + 1}`),
+      h("span", { class: "card-number", "aria-hidden": "true" }, String(index + 1).padStart(2, "0")),
       drawing(lesson, { thumbnail: true }),
       saved?.completed ? h("span", { class: "completion-badge" }, "✓ Drawn") : null,
       h("span", { class: "card-arrow", "aria-hidden": "true" }, "↗")),
@@ -45,7 +45,7 @@ function gallery() {
     grid.replaceChildren(...lessons.flatMap((lesson, index) => category === "All drawings" || category === lesson.category ? [card(lesson, index)] : []));
     filterButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.textContent === category)));
   }
-  for (const label of ["All drawings", "Animals", "Plants", "Characters"]) {
+  for (const label of ["All drawings", ...new Set(lessons.map(lesson => lesson.category))]) {
     filterButtons.push(h("button", { type: "button", class: "filter-chip", "aria-pressed": String(category === label), onclick: () => { category = label; filter(); } }, label));
   }
   filter();
@@ -107,7 +107,7 @@ function renderLesson(lesson, restoreFocus = false) {
   });
   const instruction = celebrate
     ? h("section", { class: "instruction done-instruction", "aria-labelledby": "finished-title" }, h("span", { class: "done-star", "aria-hidden": "true" }, "✳"),
-      h("p", { class: "eyebrow" }, "Look what you made"), h("h2", { id: "finished-title", tabindex: "-1" }, `You drew a ${lesson.noun}!`),
+      h("p", { class: "eyebrow" }, "Look what you made"), h("h2", { id: "finished-title", tabindex: "-1" }, `You drew ${/^[aeiou]/i.test(lesson.noun) ? "an" : "a"} ${lesson.noun}!`),
       h("p", {}, "Keep it simple, add a little color, or give your character a name. This one is yours."),
       h("div", { class: "finish-actions" }, h("button", { class: "button primary", type: "button", onclick: () => setStep(0) }, "Draw it again", h("span", { "aria-hidden": "true" }, "↺")), h("a", { class: "button secondary", href: "#drawings" }, "Pick another drawing", arrow())))
     : h("section", { class: "instruction", "aria-labelledby": "instruction-title" },

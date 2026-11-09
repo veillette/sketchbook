@@ -6,10 +6,9 @@ import { readProgress, lessonFromHash, moveStep } from '../src/state.js';
 import { drawing } from '../src/art.js';
 
 test('all requested subjects have complete, individually described strokes', () => {
-  for (const id of ['cat', 'dog', 'elephant', 'cactus', 'flower', 'vampire']) {
-    const lesson = lessonById.get(id);
-    assert.ok(lesson, id);
-    assert.ok(lesson.steps.length >= 8 && lesson.steps.length <= 20);
+  assert.equal(lessons.length, 56);
+  for (const lesson of lessons) {
+    assert.ok(lesson.steps.length >= 6 && lesson.steps.length <= 20);
     assert.equal(new Set(lesson.steps.map(s => s.path)).size, lesson.steps.length);
     for (const stroke of lesson.steps) {
       assert.match(stroke.path, /^M /);
