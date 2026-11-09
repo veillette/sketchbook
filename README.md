@@ -8,7 +8,8 @@ nature, from cats and elephants to castles, rockets and rainbows. Each step adds
 visible; the new line is highlighted. Use Previous / Next, the progress slider,
 or the left and right arrow keys. Peek at the finished example without changing
 your step, switch the reference background between chalkboard and paper, and mark
-a drawing finished. Progress stays in this browser when storage is available.
+a drawing finished. Progress and the chalkboard/paper preference stay in this
+browser when storage is available.
 
 ## Development
 
@@ -29,7 +30,7 @@ replace browser, touch-device or visual layout checks.
 - `src/lessons.js`, `src/more-lessons.js`: original SVG strokes and instructions for 56 lessons.
 - `src/art.js`: cumulative SVG rendering and current-line highlighting.
 - `src/app.js`, `src/styles.css`: gallery, lesson experience and responsive styles.
-- `src/state.js`: guarded local progress and navigation helpers.
+- `src/state.js`: guarded local progress, board theme preference and navigation helpers.
 - `tools/build.mjs`: copies the site into generated `dist/`.
 - `.openai/hosting.json`: Sites identity and static hosting configuration.
 
@@ -40,7 +41,7 @@ needs a concise instruction and a useful tip. Keep the figure simple enough to
 copy with a broad piece of chalk. Run `npm run check` before publishing.
 
 Artwork and lesson text are authored for this project. DM Sans and DM Serif Display
-are self-hosted, with their SIL Open Font Licenses in `src/fonts/`. Progress is local to each
+are self-hosted, with their SIL Open Font Licenses in `src/fonts/`. Lesson progress and the reference board theme are local to each
 browser; there are no accounts, trackers or server-side progress records.
 
 ## GitHub Pages

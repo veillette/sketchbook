@@ -1,5 +1,7 @@
 import { lessons, lessonById } from "./lessons.js";
 const KEY = "sketchbook.progress.v1";
+const THEME_KEY = "sketchbook.theme.v1";
+
 export function readProgress(storage) {
   try {
     const raw = JSON.parse(storage.getItem(KEY));
@@ -21,6 +23,17 @@ export function loadProgress() {
 }
 export function saveProgress(progress) {
   try { localStorage.setItem(KEY, JSON.stringify(progress)); } catch { /* lessons still work without storage */ }
+}
+export function readTheme(storage) {
+  try {
+    return storage.getItem(THEME_KEY) === "paper" ? "paper" : "chalk";
+  } catch { return "chalk"; }
+}
+export function loadTheme() {
+  try { return readTheme(localStorage); } catch { return "chalk"; }
+}
+export function saveTheme(theme) {
+  try { localStorage.setItem(THEME_KEY, theme === "paper" ? "paper" : "chalk"); } catch { /* theme still works without storage */ }
 }
 export function lessonFromHash(hash) {
   return lessonById.get(hash.replace(/^#\/?/, "")) ?? null;

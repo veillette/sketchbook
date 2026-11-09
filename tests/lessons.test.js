@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { lessons, lessonById } from '../src/lessons.js';
-import { readProgress, lessonFromHash, moveStep } from '../src/state.js';
+import { readProgress, readTheme, lessonFromHash, moveStep } from '../src/state.js';
 import { drawing } from '../src/art.js';
 
 test('all requested subjects have complete, individually described strokes', () => {
@@ -28,6 +28,14 @@ test('saved progress handles missing, malformed, stale and out-of-range data', (
     cat: { step: 0, completed: true }, dog: { step: lessonById.get('dog').steps.length - 1, completed: false },
   });
   assert.equal(read('{"cat":{"step":2.5}}').cat.step, 0);
+});
+
+test('board theme preference defaults to chalk and only accepts paper', () => {
+  assert.equal(readTheme({ getItem: () => null }), 'chalk');
+  assert.equal(readTheme({ getItem: () => 'chalk' }), 'chalk');
+  assert.equal(readTheme({ getItem: () => 'paper' }), 'paper');
+  assert.equal(readTheme({ getItem: () => 'slate' }), 'chalk');
+  assert.equal(readTheme({ getItem() { throw new Error('blocked'); } }), 'chalk');
 });
 
 test('lesson navigation resolves URLs and stops at the first and last strokes', () => {
@@ -68,7 +76,14 @@ test('static entrypoint uses relative, packaged assets and reduced-motion styles
     assert.ok(html.includes(`"${asset}"`));
     assert.ok(readFileSync(new URL(`../src/${asset}`, import.meta.url)).length);
   }
-  assert.match(readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8'), /prefers-reduced-motion/);
+  assert.match(html, /canonical" href="https:\/\/veillette\.github\.io\/sketchbook\/"/);
+  assert.match(html, /og:url" content="https:\/\/veillette\.github\.io\/sketchbook\/"/);
+  assert.doesNotMatch(html, /chatgpt\.site/);
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(css, /prefers-reduced-motion/);
+  for (const color of ['peach', 'butter', 'lilac', 'sage', 'pink', 'blue']) {
+    assert.match(css, new RegExp(`\\.${color} \\.card-art\\{`));
+  }
 });
 
 test('fonts are self-hosted and include their redistribution licenses', () => {

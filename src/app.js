@@ -1,12 +1,12 @@
 import { setupSwipe } from "./swipe.js";
 import { lessons } from "./lessons.js";
 import { drawing } from "./art.js";
-import { loadProgress, saveProgress, lessonFromHash, moveStep } from "./state.js";
+import { loadProgress, saveProgress, loadTheme, saveTheme, lessonFromHash, moveStep } from "./state.js";
 
 const main = document.getElementById("main");
 let progress = loadProgress();
 let category = "All drawings";
-let theme = "chalk";
+let theme = loadTheme();
 let showFinished = false;
 let celebrate = false;
 
@@ -129,7 +129,7 @@ function renderLesson(lesson, restoreFocus = false) {
         h("div", { class: "reference-column" }, board,
           h("div", { class: "reference-tools" },
             h("div", { class: "board-modes", role: "group", "aria-label": "Reference background" },
-              [ ["chalk", "Chalkboard"], ["paper", "Paper"] ].map(([value, label]) => h("button", { type: "button", id: `mode-${value}`, "aria-pressed": String(theme === value), onclick: () => { theme = value; renderLesson(lesson, true); } }, label))),
+              [ ["chalk", "Chalkboard"], ["paper", "Paper"] ].map(([value, label]) => h("button", { type: "button", id: `mode-${value}`, "aria-pressed": String(theme === value), onclick: () => { theme = value; saveTheme(theme); renderLesson(lesson, true); } }, label))),
             h("button", { type: "button", id: "show-finished", class: "text-button", "aria-pressed": String(showFinished), disabled: celebrate, onclick: () => { showFinished = !showFinished; renderLesson(lesson, true); } }, showFinished ? "← Back to my step" : "Peek at finished drawing"))),
         instruction),
       h("div", { class: "lesson-bottom" }, h("p", {}, "Draw on your chalkboard or paper. The screen is just your guide."),
