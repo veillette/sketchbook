@@ -1,0 +1,44 @@
+# Sketchbook
+
+Learn to draw friendly cartoons, one line at a time. Follow the screen while drawing
+with chalk on a real chalkboard, or with a pencil on paper. There is no on-screen tracing.
+
+The first six original lessons are a cat, dog, elephant, cactus, flower and friendly
+vampire. Each step adds one continuous stroke or closed shape. Earlier lines remain
+visible; the new line is highlighted. Use Previous / Next, the progress slider,
+or the left and right arrow keys. Peek at the finished example without changing
+your step, switch the reference background between chalkboard and paper, and mark
+a drawing finished. Progress stays in this browser when storage is available.
+
+## Development
+
+Node.js 26 or newer. No npm dependencies or build framework are required.
+
+```sh
+npm run check          # unit tests and static build
+python3 -m http.server 8000 --directory dist
+```
+
+Open http://localhost:8000. Hash-based lesson links also work on hosting under a
+subdirectory. The test suite checks lesson content, cumulative strokes, navigation
+boundaries, asset references and malformed/blocked saved progress. It does not
+replace browser, touch-device or visual layout checks.
+
+## Files
+
+- `src/lessons.js`: original SVG strokes and a short instruction for each step.
+- `src/art.js`: cumulative SVG rendering and current-line highlighting.
+- `src/app.js`, `src/styles.css`: gallery, lesson experience and responsive styles.
+- `src/state.js`: guarded local progress and navigation helpers.
+- `tools/build.mjs`: copies the site into generated `dist/`.
+- `.openai/hosting.json`: Sites identity and static hosting configuration.
+
+To add a lesson, give it a unique ID, category, color and a sequence of steps in
+`lessons.js`. Keep each path continuous, with one `M` command. Use the existing
+320-unit drawing coordinate system and leave room around the figure. Each step
+needs a concise instruction and a useful tip. Keep the figure simple enough to
+copy with a broad piece of chalk. Run `npm run check` before publishing.
+
+Artwork and lesson text are authored for this project. DM Sans and DM Serif Display
+are self-hosted, with their SIL Open Font Licenses in `src/fonts/`. Progress is local to each
+browser; there are no accounts, trackers or server-side progress records.
