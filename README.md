@@ -42,3 +42,17 @@ copy with a broad piece of chalk. Run `npm run check` before publishing.
 Artwork and lesson text are authored for this project. DM Sans and DM Serif Display
 are self-hosted, with their SIL Open Font Licenses in `src/fonts/`. Progress is local to each
 browser; there are no accounts, trackers or server-side progress records.
+
+## GitHub Pages
+
+The **Publish to GitHub Pages** workflow runs tests and builds the static site on
+pushes to `main`, then deploys only `dist/`. It can also be run manually from the
+Actions tab. No npm installation or repository secrets are needed.
+
+In **Settings → Pages**, select **GitHub Actions** as the build source. The public
+site is https://veillette.github.io/sketchbook/. The workflow supplies `SITE_URL`
+from Pages configuration so generated canonical and Open Graph URLs match the
+hosting URL, including its subdirectory or a configured custom domain. Relative
+asset paths and hash-based lessons work under that subdirectory.
+
+For a local build targeting another host, run `SITE_URL=https://example.com/sketchbook/ npm run build`. Builds without `SITE_URL` preserve the source metadata.
