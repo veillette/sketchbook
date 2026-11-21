@@ -135,8 +135,9 @@ test('static entrypoint uses relative, packaged assets and reduced-motion styles
   assert.doesNotMatch(html, /chatgpt\.site/);
   const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
   assert.match(css, /prefers-reduced-motion/);
+  const galleryCss = readFileSync(new URL('../src/gallery.css', import.meta.url), 'utf8');
   for (const color of ['peach', 'butter', 'lilac', 'sage', 'pink', 'blue']) {
-    assert.match(css, new RegExp(`\\.${color} \\.card-art\\{`));
+    assert.match(galleryCss, new RegExp(`\\.${color} \\.card-art\\s*\\{`));
   }
 });
 
