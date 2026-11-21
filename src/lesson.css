@@ -1,0 +1,552 @@
+.lesson-shell {
+  padding: 32px 0 48px;
+}
+
+.lesson-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.lesson-breadcrumb a {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.lesson-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.lesson-title-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: end;
+  margin: 20px 0 26px;
+}
+
+.lesson-title-row .eyebrow {
+  margin-bottom: 4px;
+}
+
+.lesson-title-row h1 {
+  font-family: var(--serif);
+  font-size: 48px;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  font-weight: 400;
+  margin: 0;
+}
+
+.lesson-intro {
+  font-size: 12px;
+  max-width: 320px;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.lesson-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: stretch;
+}
+
+.reference-column {
+  min-width: 0;
+}
+
+.lesson-board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #e4eadb;
+  background: #27483e;
+  background-image: radial-gradient(#ffffff09 1px, transparent 1px);
+  background-size: 5px 5px;
+  border: 7px solid #e8e3d5;
+  border-radius: 12px;
+  padding: 16px 24px 12px;
+  box-shadow: 0 8px 23px -21px #1c392a;
+}
+
+.lesson-board .drawing {
+  height: 350px;
+  max-height: 46vh;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.lesson-board .stroke {
+  stroke-width: 4;
+}
+
+.lesson-board .new-stroke {
+  color: var(--gold);
+  stroke-width: 5;
+  animation: appear .35s ease-out;
+}
+
+.lesson-board-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #c3d1bd;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.lesson-board-top span:last-child {
+  font-size: 21px;
+}
+
+.board-caption {
+  text-align: center;
+  font-size: 10px;
+  color: #c3d1bd;
+  margin: 6px 0;
+}
+
+.paper-board {
+  background: #fffdf8;
+  background-image: radial-gradient(#b6bea532 .7px, transparent .7px);
+  color: #657367;
+}
+
+.paper-board .new-stroke {
+  color: #a36b29;
+}
+
+.paper-board .lesson-board-top, .paper-board .board-caption {
+  color: #657367;
+}
+
+.reference-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 0 0;
+}
+
+.board-modes {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 3px;
+}
+
+.board-modes button {
+  font-size: 10px;
+  min-height: 38px;
+  border: 0;
+  border-radius: 22px;
+  padding: 7px 14px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.board-modes button[aria-pressed=true] {
+  background: #e3e9db;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.text-button {
+  background: transparent;
+  border: 0;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  min-height: 44px;
+  padding: 8px 0;
+  color: var(--muted);
+}
+
+.text-button:hover:not(:disabled) {
+  color: var(--green);
+}
+
+.instruction {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #fffdf64d;
+}
+
+.instruction-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.instruction-topline .eyebrow {
+  margin: 0;
+}
+
+.step-badge {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 34px;
+  line-height: 1.2;
+  color: #a5b394;
+}
+
+.instruction-copy {
+  margin-top: 20px;
+  min-height: 154px;
+}
+
+.instruction h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -.5px;
+  margin: 0 0 16px;
+}
+
+.instruction-copy p, .done-instruction > p:not(.eyebrow) {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+  margin: 0;
+}
+
+.take-time {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+  font-size: 10px;
+  color: var(--muted);
+  margin: auto 0 22px;
+  line-height: 1.7;
+}
+
+.take-time span {
+  font-size: 28px;
+  color: #9eaf8d;
+}
+
+.lesson-controls {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 10px;
+}
+
+.lesson-controls .button {
+  padding: 12px;
+  gap: 12px;
+}
+
+.step-range {
+  margin-top: 22px;
+}
+
+.step-range label {
+  font-size: 10px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.step-range input {
+  display: block;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+
+.keyboard-hint {
+  font-size: 9px;
+  color: var(--muted);
+  text-align: center;
+  margin: 12px 0 0;
+}
+
+.lesson-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.lesson-bottom p {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.done-instruction {
+  justify-content: center;
+  text-align: center;
+}
+
+.done-star {
+  font-size: 55px;
+  color: #b68e40;
+  line-height: 1;
+  margin-bottom: 23px;
+}
+
+.done-instruction .eyebrow {
+  margin-bottom: 12px;
+}
+
+.done-instruction h2:focus {
+  outline: none;
+}
+
+.finish-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.done-instruction .button {
+  width: 100%;
+}
+
+@keyframes appear {
+  from {
+    opacity: .35;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1500px) {
+  .lesson-board .drawing {
+    height: 410px;
+  }
+}
+
+@media (max-width: 950px) {
+  .lesson-workspace {
+    gap: 24px;
+  }
+
+  .instruction {
+    padding: 22px;
+  }
+
+  .instruction h2 {
+    font-size: 28px;
+  }
+
+  .lesson-board {
+    padding: 12px 16px;
+  }
+
+  .lesson-board .drawing {
+    height: 320px;
+  }
+
+  .lesson-controls .button {
+    font-size: 11px;
+    gap: 7px;
+    padding: 12px 7px;
+  }
+
+  .reference-tools {
+    gap: 4px;
+  }
+
+  .reference-tools > .text-button {
+    font-size: 10px;
+  }
+
+  .board-modes button {
+    padding: 7px 10px;
+  }
+
+  .instruction-copy {
+    min-height: 160px;
+  }
+}
+
+@media (max-width: 720px) {
+  .lesson-shell {
+    padding-top: 16px;
+  }
+
+  .lesson-breadcrumb {
+    font-size: 10px;
+  }
+
+  .lesson-title-row {
+    display: block;
+    margin: 18px 0 24px;
+  }
+
+  .lesson-title-row h1 {
+    font-size: 43px;
+  }
+
+  .lesson-intro {
+    margin: 13px 0 0;
+    max-width: 100%;
+    font-size: 12px;
+  }
+
+  .lesson-workspace {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .lesson-board {
+    padding: 13px 19px;
+    border-width: 6px;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .lesson-board .drawing {
+    height: 310px;
+    max-height: 45vh;
+  }
+
+  .lesson-board .stroke {
+    stroke-width: 3.5;
+  }
+
+  .lesson-board .new-stroke {
+    stroke-width: 4.5;
+  }
+
+  .board-caption {
+    font-size: 9px;
+    line-height: 1.7;
+  }
+
+  .reference-tools {
+    gap: 10px;
+  }
+
+  .board-modes button {
+    min-height: 40px;
+    font-size: 10px;
+    padding: 8px 14px;
+  }
+
+  .reference-tools > .text-button {
+    font-size: 10px;
+  }
+
+  .instruction {
+    padding: 23px;
+  }
+
+  .instruction-copy {
+    margin-top: 16px;
+    min-height: 0;
+  }
+
+  .instruction h2 {
+    font-size: 30px;
+  }
+
+  .instruction-copy p {
+    font-size: 13px;
+  }
+
+  .take-time {
+    margin-top: 24px;
+  }
+
+  .lesson-controls .button {
+    font-size: 13px;
+    min-height: 52px;
+  }
+
+  .step-range {
+    margin-top: 18px;
+  }
+
+  .keyboard-hint {
+    display: none;
+  }
+
+  .lesson-bottom {
+    align-items: start;
+  }
+
+  .lesson-bottom p {
+    max-width: 230px;
+    font-size: 10px;
+  }
+
+  .lesson-bottom .text-button {
+    white-space: nowrap;
+    line-height: 1;
+    font-size: 10px;
+    min-height: 44px;
+    padding-top: 0;
+  }
+
+  .done-instruction {
+    padding: 32px 24px;
+  }
+
+  .done-instruction h2 {
+    font-size: 34px;
+  }
+
+  .reference-tools .text-button {
+    min-height: 44px;
+  }
+
+  .step-range input {
+    height: 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .lesson-breadcrumb > span {
+    font-size: 9px;
+  }
+
+  .reference-tools {
+    gap: 5px;
+  }
+
+  .board-modes button {
+    padding: 8px 11px;
+  }
+
+  .reference-tools > .text-button {
+    font-size: 9px;
+  }
+
+  .lesson-board .drawing {
+    height: 275px;
+  }
+}
+
+.swipe-hint {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .swipe-hint {
+    display: inline;
+  }
+}

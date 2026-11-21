@@ -23,9 +23,16 @@ test('Pages build preserves relative assets and sets metadata for the deployed s
   assert.ok(html.includes('<meta property="og:image" content="https://example.github.io/sketchbook/og-image.png">'));
   assert.doesNotMatch(html, /veillette\.github\.io/);
   assert.equal(readFileSync(new URL('src/index.html', root), 'utf8'), source);
-  for (const asset of ['app.js', 'styles.css', 'fonts.css', 'swipe.js', 'lessons.js', 'icon.svg', 'og-image.png']) {
+  for (const asset of [
+    'app.js', 'dom.js', 'gallery.js', 'lesson-player.js', 'lesson-view.js',
+    'styles.css', 'gallery.css', 'lesson.css', 'fonts.css',
+    'swipe.js', 'lessons.js', 'icon.svg', 'og-image.png',
+  ]) {
     assert.ok(existsSync(join(out, asset)), asset);
   }
   assert.ok(html.includes('src="app.js"'));
+  assert.ok(html.includes('href="fonts.css"'));
   assert.ok(html.includes('href="styles.css"'));
+  assert.ok(html.includes('href="gallery.css"'));
+  assert.ok(html.includes('href="lesson.css"'));
 });

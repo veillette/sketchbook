@@ -31,7 +31,11 @@ replace browser, touch-device or visual layout checks.
 
 - `src/lessons.js`, `src/more-lessons.js`: original SVG strokes, instructions and tips for 56 lessons.
 - `src/art.js`: cumulative SVG rendering, current-line highlighting and the `VIEW_BOX` drawing area.
-- `src/app.js`, `src/styles.css`: gallery, lesson experience and responsive styles.
+- `src/app.js`: hash routing, saved preferences and the shared live region.
+- `src/gallery.js`, `src/gallery.css`: lesson cards and category filtering.
+- `src/lesson-player.js`: step navigation, preview, completion and focus restoration.
+- `src/lesson-view.js`, `src/lesson.css`: reference board, instructions and controls.
+- `src/dom.js`, `src/styles.css`: shared DOM helpers and site-wide styles.
 - `src/state.js`: guarded local progress, board theme preference and navigation helpers.
 - `src/swipe.js`: touch swipe detection for the reference board.
 - `src/og-image.png`: 1200×630 social preview card.
