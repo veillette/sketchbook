@@ -550,3 +550,7 @@
     display: inline;
   }
 }
+
+.copy-status:not(:empty) {
+  margin-inline-start: .5em;
+}

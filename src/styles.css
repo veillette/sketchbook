@@ -222,6 +222,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 20px;
   font-size: 10px;
   color: var(--muted);
@@ -342,4 +343,24 @@ main {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+.offline-install {
+  flex: 1 0 100%;
+  max-width: 40rem;
+  font-size: 1rem;
+}
+
+.offline-install summary {
+  padding-block: .65rem;
+  cursor: pointer;
+}
+
+.offline-install button {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.site-footer .offline-install p {
+  font-size: inherit;
 }

@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "path": "#cat",
+      "selector": ".lesson-title-row h1",
+      "text": "Curious cat"
+    }
+  ]
+}

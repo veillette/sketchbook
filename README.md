@@ -11,14 +11,18 @@ your step, switch the reference background between chalkboard and paper, and mar
 a drawing finished. Progress and the chalkboard/paper preference stay in this
 browser when storage is available.
 
-## Development
+Use **Copy lesson link** to share a drawing lesson. For offline drawing, open the built site and wait for the ready message under **Install for offline use**. The build generates the offline file list and cache version from the deployment files.
 
-Node.js 26 or newer. No npm dependencies or build framework are required.
+## Check, build, and preview
+
+Use Node.js 26 and Python 3. The site has no npm dependencies.
 
 ```sh
-npm run check          # unit tests and static build
+npm run check  # checks and builds dist/
 python3 -m http.server 8000 --directory dist
 ```
+
+The Pages workflow runs the deployment smoke test against `dist/`. Run `node .github/site-smoke.mjs dist --assets-only` to check the offline file list locally.
 
 Open http://localhost:8000. Hash-based lesson links also work on hosting under a
 subdirectory. The test suite checks lesson content, cumulative strokes, navigation
@@ -56,7 +60,7 @@ browser; there are no accounts, trackers or server-side progress records.
 ## GitHub Pages
 
 The **Publish to GitHub Pages** workflow runs tests and builds the static site on
-pushes to `main`, then deploys only `dist/`. It can also be run manually from the
+pull requests and pushes to `main`. Successful builds on `main` deploy only `dist/`. It can also be run manually from the
 Actions tab. No npm installation or repository secrets are needed.
 
 In **Settings → Pages**, select **GitHub Actions** as the build source. The public

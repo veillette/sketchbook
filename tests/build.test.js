@@ -18,6 +18,13 @@ test('Pages build preserves relative assets and sets metadata for the deployed s
     stdio: 'pipe',
   });
   const html = readFileSync(join(out, 'index.html'), 'utf8');
+  const worker = readFileSync(join(out, 'sw.js'), 'utf8');
+  const precached = JSON.parse(worker.match(/^const files = (\[.*\]);$/m)[1]);
+  for (const asset of ['index.html', 'app.js', 'copy-link.js', 'styles.css', 'manifest.webmanifest', 'icons/icon-512.png']) {
+    assert.ok(precached.includes(asset), asset + ' is available offline');
+  }
+  assert.match(worker, /const cacheName = .*[0-9a-f]{16}/);
+  assert.ok(html.includes('href="manifest.webmanifest"'));
   assert.ok(html.includes('<link rel="canonical" href="https://example.github.io/sketchbook/">'));
   assert.ok(html.includes('<meta property="og:url" content="https://example.github.io/sketchbook/">'));
   assert.ok(html.includes('<meta property="og:image" content="https://example.github.io/sketchbook/og-image.png">'));
