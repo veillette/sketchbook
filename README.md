@@ -3,7 +3,7 @@
 Learn to draw friendly cartoons, one line at a time. Follow the screen while drawing
 with chalk on a real chalkboard, or with a pencil on paper. There is no on-screen tracing.
 
-There are 56 original lessons across animals, plants, characters, objects and
+The original lessons cover animals, plants, characters, objects and
 nature, from cats and elephants to castles, rockets and rainbows. Each step adds one continuous stroke or closed shape. Earlier lines remain
 visible; the new line is highlighted. Use Previous / Next, the progress slider,
 or the left and right arrow keys. Peek at the finished example without changing
@@ -33,7 +33,7 @@ replace browser, touch-device or visual layout checks.
 
 ## Files
 
-- `src/lessons.js`, `src/more-lessons.js`: original SVG strokes, instructions and tips for 56 lessons.
+- `src/lessons.js`, `src/more-lessons.js`: original SVG strokes, instructions and lesson tips.
 - `src/art.js`: cumulative SVG rendering, current-line highlighting and the `VIEW_BOX` drawing area.
 - `src/app.js`: hash routing, saved preferences and the shared live region.
 - `src/gallery.js`, `src/gallery.css`: lesson cards and category filtering.
