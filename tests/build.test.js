@@ -25,6 +25,11 @@ test('Pages build preserves relative assets and sets metadata for the deployed s
   }
   assert.match(worker, /const cacheName = .*[0-9a-f]{16}/);
   assert.ok(html.includes('href="manifest.webmanifest"'));
+  const manifest = JSON.parse(readFileSync(join(out, 'manifest.webmanifest'), 'utf8'));
+  const maskable = manifest.icons.find((icon) => icon.purpose === 'maskable');
+  assert.equal(maskable.sizes, '512x512');
+  assert.ok(precached.includes(maskable.src));
+  assert.ok(precached.includes('icon.svg'));
   assert.ok(html.includes('<link rel="canonical" href="https://example.github.io/sketchbook/">'));
   assert.ok(html.includes('<meta property="og:url" content="https://example.github.io/sketchbook/">'));
   assert.ok(html.includes('<meta property="og:image" content="https://example.github.io/sketchbook/og-image.png">'));
