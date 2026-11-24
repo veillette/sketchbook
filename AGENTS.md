@@ -9,5 +9,7 @@
 - Use Node.js 26. Run `npm run check` and
   `node .github/site-smoke.mjs dist --assets-only`. Preview `dist/` and check
   the changed lesson at phone and desktop widths.
-- Make changes to shared deployment helpers in their canonical repo as
-  described in Origami's README.
+- One-way sync from Origami: shared Pages CI, smoke tests, copy-link, PWA, and
+  worker builders are edited in Origami, then copied here with
+  `node tools/sync-site-helpers.mjs --write` from the Origami checkout. Do not
+  patch those copies only in Sketchbook.
