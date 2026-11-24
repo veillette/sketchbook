@@ -13,3 +13,5 @@
   worker builders are edited in Origami, then copied here with
   `node tools/sync-site-helpers.mjs --write` from the Origami checkout. Do not
   patch those copies only in Sketchbook.
+- `src/storage.js` is synced from aperitif `js/storage.js`. Edit storage there,
+  then run the Origami sync script.
