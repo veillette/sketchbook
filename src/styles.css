@@ -100,8 +100,9 @@ main:focus {
 }
 
 .brand-mark {
-  font-size: 40px;
-  color: var(--green);
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
   margin-right: 2px;
 }
 
@@ -272,7 +273,8 @@ main {
   }
 
   .brand-mark {
-    font-size: 33px;
+    width: 1.875rem;
+    height: 1.875rem;
   }
 
   .header-note {
